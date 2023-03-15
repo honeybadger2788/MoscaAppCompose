@@ -2,16 +2,14 @@ package com.example.mosca.home.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Card
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.ArrowUpward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,23 +20,35 @@ import androidx.compose.ui.unit.sp
 fun HomeScreen(){
     Box(
         Modifier
-            .fillMaxSize()
-            .padding(16.dp)) {
+            .fillMaxSize()) {
         Column {
+            TopBar()
             Budget(
                 Modifier
-                    .fillMaxWidth())
-            ExpensesList(Modifier.padding(8.dp))
+                    .fillMaxWidth()
+                    .padding(16.dp))
+            ExpensesList(Modifier.padding(16.dp))
         }
         FabDialog(Modifier.align(Alignment.BottomEnd))
     }
+}
+
+@Composable
+fun TopBar() {
+    TopAppBar(title = {},
+        actions = {
+            IconButton(onClick = { }) {
+                Icon(imageVector = Icons.Filled.Logout, contentDescription = "logout")
+            }
+        }
+    )
 }
 
 
 @Composable
 fun ExpensesList(modifier: Modifier) {
     Column(modifier = modifier) {
-        Text(text = "Expenses:", fontSize = 18.sp)
+        Text(text = "Movimientos:", fontSize = 18.sp)
         LazyColumn{
             items(20){
                 ItemExpense()
@@ -52,17 +62,22 @@ fun ItemExpense() {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+            .padding(vertical = 8.dp, horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
         Icon(imageVector = Icons.Outlined.ArrowUpward, contentDescription = "")
         Spacer(modifier = Modifier.width(8.dp))
-        Text(text = "Expense $0.00")
+        Text(text = "Gasto $0.00")
     }
 }
 
 @Composable
 fun Budget(modifier: Modifier) {
     Card(modifier = modifier, elevation = 8.dp) {
-        Text(text = "Budget: $0.00", fontSize = 48.sp, textAlign = TextAlign.Center)
+        Text(
+            text = "Saldo: $0.00",
+            fontSize = 32.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
     }
 }
 
