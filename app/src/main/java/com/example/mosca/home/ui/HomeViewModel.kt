@@ -1,5 +1,6 @@
 package com.example.mosca.home.ui
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,9 @@ import com.example.mosca.home.ui.model.ExpenseModel
 class HomeViewModel:ViewModel() {
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
+
+    private val _budget = MutableLiveData<Double>()
+    val budget: LiveData<Double> = _budget
 
     private val _expensesList = mutableStateListOf<ExpenseModel>()
     val expensesList: List<ExpenseModel> = _expensesList
@@ -21,7 +25,8 @@ class HomeViewModel:ViewModel() {
         _showDialog.value = true
     }
 
-    fun onExpenseCreated(expense: ExpenseModel) {
+    fun onExpenseCreated(expense: ExpenseModel, budget: Double) {
+        _budget.value = budget + expense.amount
         _showDialog.value = false
         _expensesList.add(expense)
     }

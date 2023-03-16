@@ -32,16 +32,18 @@ import com.example.mosca.home.ui.model.ExpenseModel
 fun HomeScreen(homeViewModel: HomeViewModel) {
     val showDialog: Boolean by homeViewModel.showDialog.observeAsState(false)
 
+    val budget: Double by homeViewModel.budget.observeAsState(0.00)
+
     Box(
         Modifier
             .fillMaxSize()) {
-        AddExpensesDialog(showDialog, homeViewModel)
+        AddExpensesDialog(showDialog, homeViewModel, budget)
         Column {
             TopBar()
             Budget(
                 Modifier
                     .fillMaxWidth()
-                    .padding(16.dp))
+                    .padding(16.dp), budget)
             ExpensesList(Modifier.padding(16.dp), homeViewModel)
         }
         FabDialog(Modifier.align(Alignment.BottomEnd)) { homeViewModel.onShowDialogClick() }
@@ -106,10 +108,10 @@ fun ItemExpense(expense: ExpenseModel) {
 }
 
 @Composable
-fun Budget(modifier: Modifier) {
+fun Budget(modifier: Modifier, budget: Double) {
     Card(modifier = modifier, elevation = 8.dp) {
         Text(
-            text = "Saldo: $0.00",
+            text = "Saldo: $${budget}",
             fontSize = 32.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(vertical = 8.dp)
@@ -128,7 +130,7 @@ fun FabDialog(modifier: Modifier, showDialog: () -> Unit) {
 }
 
 @Composable
-fun AddExpensesDialog(show: Boolean, homeViewModel: HomeViewModel) {
+fun AddExpensesDialog(show: Boolean, homeViewModel: HomeViewModel, budget: Double) {
     var detail by rememberSaveable {
         mutableStateOf("")
     }
@@ -178,7 +180,8 @@ fun AddExpensesDialog(show: Boolean, homeViewModel: HomeViewModel) {
                             ExpenseModel(
                                 detail = detail,
                                 amount = amount.toDouble()
-                            )
+                            ),
+                            budget
                         )
                         amount = ""
                         detail = ""
