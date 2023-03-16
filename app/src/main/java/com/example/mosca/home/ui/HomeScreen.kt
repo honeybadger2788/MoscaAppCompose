@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.mosca.R
 
 @Preview(showBackground = true)
 @Composable
@@ -50,9 +51,14 @@ fun HomeScreen(){
 @Composable
 fun TopBar() {
     TopAppBar(title = {},
+        backgroundColor = Color(0xff0097a7),
         actions = {
             IconButton(onClick = { }) {
-                Icon(imageVector = Icons.Filled.Logout, contentDescription = "logout")
+                Icon(
+                    imageVector = Icons.Filled.Logout,
+                    contentDescription = "logout",
+                    tint = Color.White
+                )
             }
         }
     )
@@ -98,7 +104,8 @@ fun Budget(modifier: Modifier) {
 @Composable
 fun FabDialog(modifier: Modifier, showDialog: () -> Unit) {
     FloatingActionButton(onClick = { showDialog() },
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(16.dp),
+        backgroundColor = Color(0xffffd740)
     ) {
         Icon(imageVector = Icons.Filled.Add, contentDescription = "")
     }
