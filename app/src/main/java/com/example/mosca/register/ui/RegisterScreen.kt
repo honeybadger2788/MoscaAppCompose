@@ -1,6 +1,7 @@
 package com.example.mosca.register.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -20,17 +21,21 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.mosca.R
+import com.example.mosca.routes.Routes
 
-@Preview(showBackground = true)
+
 @Composable
-fun RegisterScreen(){
+fun RegisterScreen(navigationController: NavHostController) {
     TopAppBar(backgroundColor = Color.Transparent, elevation = 0.dp) {
         Icon(
             imageVector = Icons.Filled.ArrowBackIos,
             contentDescription = "back",
             tint = Color.Gray,
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(start = 16.dp).clickable {
+                navigationController.navigate(Routes.Login.route)
+            }
         )
     }
     Column(

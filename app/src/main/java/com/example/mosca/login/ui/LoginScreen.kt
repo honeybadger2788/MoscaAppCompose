@@ -2,6 +2,7 @@ package com.example.mosca.login.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -20,14 +21,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.mosca.R
+import com.example.mosca.routes.Routes
 
-@Preview(showBackground = true)
+
 @Composable
-fun LoginScreen(){
+fun LoginScreen(navigationController: NavHostController) {
     Column(
         Modifier
             .fillMaxSize()
@@ -36,11 +38,13 @@ fun LoginScreen(){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BrandLogo()
-        LoginForm(Modifier.padding(vertical = 16.dp))
+        LoginForm(Modifier.padding(vertical = 16.dp), navigationController)
         LoginDivider()
         Text(
             text = "REGISTRATE",
-            Modifier.padding(8.dp),
+            Modifier.padding(8.dp).clickable {
+                navigationController.navigate(Routes.Register.route)
+            },
             color = Color(0xff0097a7),
             fontWeight = FontWeight.Bold
         )
@@ -76,20 +80,20 @@ fun LoginDivider() {
 }
 
 @Composable
-fun LoginForm(modifier: Modifier) {
+fun LoginForm(modifier: Modifier, navigationController: NavHostController) {
     Column (modifier = modifier) {
         Email(Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.size(8.dp))
         Password(Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton()
+        LoginButton(navigationController)
     }
 }
 
 @Composable
-fun LoginButton() {
+fun LoginButton(navigationController: NavHostController) {
     Button(
-        onClick = { },
+        onClick = { navigationController.navigate(Routes.Home.route) },
         enabled = true,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(

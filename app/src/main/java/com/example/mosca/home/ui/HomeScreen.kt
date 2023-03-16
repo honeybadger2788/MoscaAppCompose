@@ -25,11 +25,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
 import com.example.mosca.home.ui.model.ExpenseModel
+import com.example.mosca.routes.Routes
 
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel) {
+fun HomeScreen(homeViewModel: HomeViewModel, navigationController: NavHostController) {
     val showDialog: Boolean by homeViewModel.showDialog.observeAsState(false)
 
     val budget: Double by homeViewModel.budget.observeAsState(0.00)
@@ -39,7 +41,7 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
             .fillMaxSize()) {
         AddExpensesDialog(showDialog, homeViewModel, budget)
         Column {
-            TopBar()
+            TopBar(navigationController)
             Budget(
                 Modifier
                     .fillMaxWidth()
@@ -51,12 +53,12 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
 }
 
 @Composable
-fun TopBar() {
+fun TopBar(navigationController: NavHostController) {
     TopAppBar(title = { /*Text(text = "Mosca", color = Color.Gray, fontWeight = FontWeight.Bold)*/ },
         backgroundColor = Color.Transparent,
         elevation = 0.dp,
         actions = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = { navigationController.navigate(Routes.Login.route) }) {
                 Icon(
                     imageVector = Icons.Filled.Logout,
                     contentDescription = "logout",
