@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
@@ -38,7 +39,7 @@ fun LoginScreen(){
         LoginForm(Modifier.padding(vertical = 16.dp))
         LoginDivider()
         Text(
-            text = "Registrate",
+            text = "REGISTRATE",
             Modifier.padding(8.dp),
             color = Color(0xff0097a7),
             fontWeight = FontWeight.Bold
@@ -161,7 +162,8 @@ fun Email(modifier: Modifier) {
             textColor = Color(0xFFB2B2B2),
             backgroundColor = Color(0xFFFAFAFA),
             focusedBorderColor = Color(0xff00bcd4),
-        )
+        ),
+        trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) }
     )
 }
 
