@@ -52,7 +52,7 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
 
 @Composable
 fun TopBar() {
-    TopAppBar(title = {},
+    TopAppBar(title = { Text(text = "Mosca", color = Color.White, fontWeight = FontWeight.Bold) },
         backgroundColor = Color(0xff0097a7),
         actions = {
             IconButton(onClick = { }) {
