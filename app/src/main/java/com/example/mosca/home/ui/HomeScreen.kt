@@ -92,14 +92,14 @@ fun ItemExpense(expense: ExpenseModel) {
         if (expense.amount > 0.00) {
             Icon(
                 imageVector = Icons.Outlined.ArrowUpward,
-                contentDescription = "",
-                tint = Color.Green
+                contentDescription = "income",
+                tint = Color(0xff388E3C)
             )
         } else {
             Icon(
                 imageVector = Icons.Outlined.ArrowDownward,
-                contentDescription = "",
-                tint = Color.Red
+                contentDescription = "outcome",
+                tint = Color(0xffD32F2F)
             )
         }
         Spacer(modifier = Modifier.size(8.dp))
