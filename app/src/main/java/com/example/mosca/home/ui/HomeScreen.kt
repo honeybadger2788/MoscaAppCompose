@@ -1,16 +1,18 @@
 package com.example.mosca.home.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.ArrowDownward
 import androidx.compose.material.icons.outlined.ArrowUpward
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -20,31 +22,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.mosca.R
+import com.example.mosca.home.ui.model.ExpenseModel
 
-@Preview(showBackground = true)
+
 @Composable
-fun HomeScreen(){
-    var show by rememberSaveable {
-        mutableStateOf(false)
-    }
+fun HomeScreen(homeViewModel: HomeViewModel) {
+    val showDialog: Boolean by homeViewModel.showDialog.observeAsState(false)
+
     Box(
         Modifier
             .fillMaxSize()) {
-        AddExpensesDialog(show, onDismiss = { show =  false })
+        AddExpensesDialog(showDialog, homeViewModel)
         Column {
             TopBar()
             Budget(
                 Modifier
                     .fillMaxWidth()
                     .padding(16.dp))
-            ExpensesList(Modifier.padding(16.dp))
+            ExpensesList(Modifier.padding(16.dp), homeViewModel)
         }
-        FabDialog(Modifier.align(Alignment.BottomEnd)) { show = true }
+        FabDialog(Modifier.align(Alignment.BottomEnd)) { homeViewModel.onShowDialogClick() }
     }
 }
 
@@ -66,26 +66,42 @@ fun TopBar() {
 
 
 @Composable
-fun ExpensesList(modifier: Modifier) {
+fun ExpensesList(modifier: Modifier, homeViewModel: HomeViewModel) {
+    val expenses: List<ExpenseModel> = homeViewModel.expensesList
+
     Column(modifier = modifier) {
         Text(text = "Movimientos:", fontSize = 18.sp, modifier = Modifier.padding(bottom = 8.dp))
         LazyColumn{
-            items(20){
-                ItemExpense()
+            items(expenses){
+                ItemExpense(it)
             }
         }
     }
 }
 
 @Composable
-fun ItemExpense() {
+fun ItemExpense(expense: ExpenseModel) {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-        Icon(imageVector = Icons.Outlined.ArrowUpward, contentDescription = "")
+            .padding(vertical = 8.dp, horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (expense.amount > 0.00) {
+            Icon(
+                imageVector = Icons.Outlined.ArrowUpward,
+                contentDescription = "",
+                tint = Color.Green
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.ArrowDownward,
+                contentDescription = "",
+                tint = Color.Red
+            )
+        }
         Spacer(modifier = Modifier.size(8.dp))
-        Text(text = "Gasto $0.00")
+        Text(text = "${expense.detail} $${expense.amount}")
     }
 }
 
@@ -112,7 +128,7 @@ fun FabDialog(modifier: Modifier, showDialog: () -> Unit) {
 }
 
 @Composable
-fun AddExpensesDialog(show: Boolean, onDismiss: () -> Unit) {
+fun AddExpensesDialog(show: Boolean, homeViewModel: HomeViewModel) {
     var detail by rememberSaveable {
         mutableStateOf("")
     }
@@ -122,7 +138,7 @@ fun AddExpensesDialog(show: Boolean, onDismiss: () -> Unit) {
     }
 
     if(show){
-        Dialog(onDismissRequest = { onDismiss() }) {
+        Dialog(onDismissRequest = { homeViewModel.onDialogClose() }) {
             Column(
                 Modifier
                     .fillMaxWidth()
@@ -157,7 +173,16 @@ fun AddExpensesDialog(show: Boolean, onDismiss: () -> Unit) {
                 }
                 Spacer(modifier = Modifier.size(16.dp))
                 Button(
-                    onClick = { Log.i("Noe", "Info enviada ${detail} ${amount}")  },
+                    onClick = {
+                        homeViewModel.onExpenseCreated(
+                            ExpenseModel(
+                                detail = detail,
+                                amount = amount.toDouble()
+                            )
+                        )
+                        amount = ""
+                        detail = ""
+                    },
                     Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Agregar")
