@@ -52,14 +52,15 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
 
 @Composable
 fun TopBar() {
-    TopAppBar(title = { Text(text = "Mosca", color = Color.White, fontWeight = FontWeight.Bold) },
-        backgroundColor = Color(0xff0097a7),
+    TopAppBar(title = { /*Text(text = "Mosca", color = Color.Gray, fontWeight = FontWeight.Bold)*/ },
+        backgroundColor = Color.Transparent,
+        elevation = 0.dp,
         actions = {
             IconButton(onClick = { }) {
                 Icon(
                     imageVector = Icons.Filled.Logout,
                     contentDescription = "logout",
-                    tint = Color.White
+                    tint = Color.Gray
                 )
             }
         }
@@ -109,12 +110,13 @@ fun ItemExpense(expense: ExpenseModel) {
 
 @Composable
 fun Budget(modifier: Modifier, budget: Double) {
-    Card(modifier = modifier, elevation = 8.dp) {
+    Card(modifier = modifier, elevation = 8.dp, backgroundColor = Color(0xff0097a7)) {
         Text(
             text = "Saldo: $${budget}",
             fontSize = 32.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 8.dp),
+            color = Color.White
         )
     }
 }
