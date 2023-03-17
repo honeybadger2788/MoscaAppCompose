@@ -27,6 +27,7 @@ import androidx.navigation.NavHostController
 import com.example.mosca.R
 import com.example.mosca.model.Routes
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
+import com.example.mosca.ui.composable.DefaultButton
 
 
 @Composable
@@ -95,19 +96,9 @@ fun LoginForm(modifier: Modifier, navigationController: NavHostController) {
 
 @Composable
 fun LoginButton(navigationController: NavHostController) {
-    Button(
-        onClick = { navigationController.navigate(Routes.Home.route) },
-        enabled = true,
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xff0097a7),
-            disabledBackgroundColor = Color(0xFF80deea),
-            contentColor = Color.White,
-            disabledContentColor = Color.White
-        )
-    ) {
-        Text(text = "INGRESAR")
-    }
+    DefaultButton(text = "INGRESAR", onClick = {
+        navigationController.navigate(Routes.Home.route)
+    }, enabled = true)
 }
 
 @Composable
