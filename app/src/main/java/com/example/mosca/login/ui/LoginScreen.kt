@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mosca.R
-import com.example.mosca.routes.Routes
+import com.example.mosca.model.Routes
 
 
 @Composable

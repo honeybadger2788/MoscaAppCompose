@@ -15,7 +15,7 @@ import com.example.mosca.home.ui.HomeScreen
 import com.example.mosca.home.ui.HomeViewModel
 import com.example.mosca.login.ui.LoginScreen
 import com.example.mosca.register.ui.RegisterScreen
-import com.example.mosca.routes.Routes
+import com.example.mosca.model.Routes
 import com.example.mosca.ui.theme.MoscaTheme
 
 class MainActivity : ComponentActivity() {

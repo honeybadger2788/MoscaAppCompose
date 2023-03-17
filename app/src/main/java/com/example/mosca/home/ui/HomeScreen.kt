@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.mosca.home.ui.model.ExpenseModel
-import com.example.mosca.routes.Routes
+import com.example.mosca.model.Routes
 
 
 @Composable
