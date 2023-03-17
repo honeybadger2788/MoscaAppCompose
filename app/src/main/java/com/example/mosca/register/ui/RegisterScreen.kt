@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.mosca.R
+import com.example.mosca.home.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.model.Routes
 
 
@@ -66,9 +67,18 @@ fun RegisterForm(modifier: Modifier, registerViewModel: RegisterViewModel) {
             Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(8.dp))
-        Password(password, { registerViewModel.onRegisterChanged(email, it, confirmPassword) },Modifier.fillMaxWidth())
+        Password(
+            password = password,
+            onTextChanged = { registerViewModel.onRegisterChanged(email, it, confirmPassword) },
+            modifier = Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.size(8.dp))
-        ConfirmPassword(confirmPassword, { registerViewModel.onRegisterChanged(email, password, it) }, Modifier.fillMaxWidth())
+        Password(
+            password = confirmPassword,
+            label = "Confirmar contraseña",
+            onTextChanged = { registerViewModel.onRegisterChanged(email, password, it) },
+            modifier = Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.size(16.dp))
         RegisterButton(isLoginEnable)
     }
@@ -92,24 +102,15 @@ fun RegisterButton(isLoginEnable: Boolean) {
 }
 
 @Composable
-fun Password(password: String, onTextChanged: (String) -> Unit, modifier: Modifier) {
+fun Password(password: String, label: String = "Contraseña" , onTextChanged: (String) -> Unit, modifier: Modifier) {
     var passwordVisibility by rememberSaveable {
         mutableStateOf(false)
     }
 
-    OutlinedTextField(
-        value = password ,
-        onValueChange = { onTextChanged(it) },
-        modifier = modifier,
-        placeholder = { Text(text = "Contraseña") },
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = Color(0xFFB2B2B2),
-            backgroundColor = Color(0xFFFAFAFA),
-            focusedBorderColor = Color(0xff00bcd4),
-        ),
+    CustomTextFieldOutlined(
+        label = label,
+        textValue = password,
+        onTextChanged = { onTextChanged(it) },
         trailingIcon = {
             val image = if(passwordVisibility) {
                 Icons.Filled.VisibilityOff
@@ -120,43 +121,7 @@ fun Password(password: String, onTextChanged: (String) -> Unit, modifier: Modifi
                 Icon(imageVector = image, contentDescription = "Show password")
             }
         },
-        visualTransformation = if (passwordVisibility) {
-            VisualTransformation.None
-        } else {
-            PasswordVisualTransformation()
-        }
-    )
-}
-
-@Composable
-fun ConfirmPassword(confirmPassword: String, onTextChanged: (String) -> Unit, modifier: Modifier) {
-    var passwordVisibility by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    OutlinedTextField(
-        value = confirmPassword ,
-        onValueChange = { onTextChanged(it) },
         modifier = modifier,
-        placeholder = { Text(text = "Confirmar contraseña") },
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = Color(0xFFB2B2B2),
-            backgroundColor = Color(0xFFFAFAFA),
-            focusedBorderColor = Color(0xff00bcd4),
-        ),
-        trailingIcon = {
-            val image = if(passwordVisibility) {
-                Icons.Filled.VisibilityOff
-            } else {
-                Icons.Filled.Visibility
-            }
-            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                Icon(imageVector = image, contentDescription = "Show password")
-            }
-        },
         visualTransformation = if (passwordVisibility) {
             VisualTransformation.None
         } else {
@@ -167,21 +132,12 @@ fun ConfirmPassword(confirmPassword: String, onTextChanged: (String) -> Unit, mo
 
 @Composable
 fun Email(email: String, onTextChanged: (String)->Unit ,modifier: Modifier) {
-
-    OutlinedTextField(
-        value = email ,
-        onValueChange = { onTextChanged(it) },
-        modifier = modifier,
-        placeholder = { Text(text = "Email") },
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = Color(0xFFB2B2B2),
-            backgroundColor = Color(0xFFFAFAFA),
-            focusedBorderColor = Color(0xff00bcd4),
-        ),
-        trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) }
+    CustomTextFieldOutlined(
+        label = "Email",
+        textValue = email,
+        onTextChanged = { onTextChanged(it) },
+        trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) },
+        modifier = modifier
     )
 }
 
