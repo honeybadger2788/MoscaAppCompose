@@ -16,11 +16,13 @@ import com.example.mosca.home.ui.HomeViewModel
 import com.example.mosca.login.ui.LoginScreen
 import com.example.mosca.register.ui.RegisterScreen
 import com.example.mosca.model.Routes
+import com.example.mosca.register.ui.RegisterViewModel
 import com.example.mosca.ui.theme.MoscaTheme
 
 class MainActivity : ComponentActivity() {
 
     private val homeViewModel: HomeViewModel by viewModels()
+    private val registerViewModel: RegisterViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -33,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     val navigationController = rememberNavController()
                     NavHost(navController = navigationController, startDestination = Routes.Login.route){
                         composable(Routes.Login.route){ LoginScreen(navigationController) }
-                        composable(Routes.Register.route){ RegisterScreen(navigationController) }
+                        composable(Routes.Register.route){ RegisterScreen(registerViewModel,navigationController) }
                         composable(Routes.Home.route){ HomeScreen(homeViewModel, navigationController) }
                     }
                 }

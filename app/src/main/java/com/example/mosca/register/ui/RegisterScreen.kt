@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -26,15 +27,17 @@ import com.example.mosca.model.Routes
 
 
 @Composable
-fun RegisterScreen(navigationController: NavHostController) {
+fun RegisterScreen(registerViewModel: RegisterViewModel, navigationController: NavHostController) {
     TopAppBar(backgroundColor = Color.Transparent, elevation = 0.dp) {
         Icon(
             imageVector = Icons.Filled.ArrowBackIos,
             contentDescription = "back",
             tint = Color.Gray,
-            modifier = Modifier.padding(start = 16.dp).clickable {
-                navigationController.navigate(Routes.Login.route)
-            }
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .clickable {
+                    navigationController.navigate(Routes.Login.route)
+                }
         )
     }
     Column(
@@ -45,28 +48,37 @@ fun RegisterScreen(navigationController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BrandLogo()
-        RegisterForm(Modifier.padding(vertical = 16.dp))
+        RegisterForm(Modifier.padding(vertical = 16.dp), registerViewModel)
     }
 }
 
 @Composable
-fun RegisterForm(modifier: Modifier) {
+fun RegisterForm(modifier: Modifier, registerViewModel: RegisterViewModel) {
+    val email: String by registerViewModel.email.observeAsState(initial = "")
+    val password: String by registerViewModel.password.observeAsState(initial = "")
+    val confirmPassword: String by registerViewModel.confirmPassword.observeAsState(initial = "")
+    val isLoginEnable: Boolean by registerViewModel.isRegisterEnable.observeAsState(initial = false)
+
     Column (modifier = modifier) {
-        Email(Modifier.fillMaxWidth())
+        Email(
+            email,
+            { registerViewModel.onRegisterChanged(it, password, confirmPassword) },
+            Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.size(8.dp))
-        Password(Modifier.fillMaxWidth())
+        Password(password, { registerViewModel.onRegisterChanged(email, it, confirmPassword) },Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.size(8.dp))
-        ConfirmPassword(Modifier.fillMaxWidth())
+        ConfirmPassword(confirmPassword, { registerViewModel.onRegisterChanged(email, password, it) }, Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.size(16.dp))
-        RegisterButton()
+        RegisterButton(isLoginEnable)
     }
 }
 
 @Composable
-fun RegisterButton() {
+fun RegisterButton(isLoginEnable: Boolean) {
     Button(
         onClick = { },
-        enabled = true,
+        enabled = isLoginEnable,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xff0097a7),
@@ -80,18 +92,14 @@ fun RegisterButton() {
 }
 
 @Composable
-fun Password(modifier: Modifier) {
+fun Password(password: String, onTextChanged: (String) -> Unit, modifier: Modifier) {
     var passwordVisibility by rememberSaveable {
         mutableStateOf(false)
     }
 
-    var password by rememberSaveable {
-        mutableStateOf("")
-    }
-
     OutlinedTextField(
         value = password ,
-        onValueChange = { password = it },
+        onValueChange = { onTextChanged(it) },
         modifier = modifier,
         placeholder = { Text(text = "Contraseña") },
         maxLines = 1,
@@ -121,20 +129,16 @@ fun Password(modifier: Modifier) {
 }
 
 @Composable
-fun ConfirmPassword(modifier: Modifier) {
+fun ConfirmPassword(confirmPassword: String, onTextChanged: (String) -> Unit, modifier: Modifier) {
     var passwordVisibility by rememberSaveable {
         mutableStateOf(false)
     }
 
-    var password by rememberSaveable {
-        mutableStateOf("")
-    }
-
     OutlinedTextField(
-        value = password ,
-        onValueChange = { password = it },
+        value = confirmPassword ,
+        onValueChange = { onTextChanged(it) },
         modifier = modifier,
-        placeholder = { Text(text = "Contraseña") },
+        placeholder = { Text(text = "Confirmar contraseña") },
         maxLines = 1,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -162,14 +166,11 @@ fun ConfirmPassword(modifier: Modifier) {
 }
 
 @Composable
-fun Email(modifier: Modifier) {
-    var email by rememberSaveable {
-        mutableStateOf("")
-    }
+fun Email(email: String, onTextChanged: (String)->Unit ,modifier: Modifier) {
 
     OutlinedTextField(
         value = email ,
-        onValueChange = { email = it },
+        onValueChange = { onTextChanged(it) },
         modifier = modifier,
         placeholder = { Text(text = "Email") },
         maxLines = 1,
