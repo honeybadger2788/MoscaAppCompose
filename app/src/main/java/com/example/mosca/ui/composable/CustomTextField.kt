@@ -1,4 +1,4 @@
-package com.example.mosca.home.ui.composable
+package com.example.mosca.ui.composable
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
