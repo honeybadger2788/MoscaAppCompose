@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import com.example.mosca.R
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.model.Routes
+import com.example.mosca.ui.composable.DefaultButton
 
 
 @Composable
@@ -84,19 +85,7 @@ fun RegisterForm(modifier: Modifier, registerViewModel: RegisterViewModel) {
 
 @Composable
 fun RegisterButton(isLoginEnable: Boolean) {
-    Button(
-        onClick = { },
-        enabled = isLoginEnable,
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xff0097a7),
-            disabledBackgroundColor = Color(0xFF80deea),
-            contentColor = Color.White,
-            disabledContentColor = Color.White
-        )
-    ) {
-        Text(text = "REGISTRAR")
-    }
+    DefaultButton(text = "REGISTRAR", onClick = { /*TODO*/ }, enabled = isLoginEnable)
 }
 
 @Composable
