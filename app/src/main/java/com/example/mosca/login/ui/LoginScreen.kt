@@ -98,7 +98,7 @@ fun LoginForm(modifier: Modifier, navigationController: NavHostController) {
 fun LoginButton(navigationController: NavHostController) {
     DefaultButton(text = "INGRESAR", onClick = {
         navigationController.navigate(Routes.Home.route)
-    }, enabled = true)
+    })
 }
 
 @Composable

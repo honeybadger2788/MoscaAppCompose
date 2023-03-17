@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun DefaultButton(text: String, onClick: () -> Unit, enabled: Boolean) {
+fun DefaultButton(text: String, onClick: () -> Unit, enabled: Boolean = true) {
     Button(
         onClick = onClick,
         enabled = enabled,
