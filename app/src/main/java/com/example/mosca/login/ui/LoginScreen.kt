@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mosca.R
 import com.example.mosca.model.Routes
+import com.example.mosca.ui.composable.CustomTextFieldOutlined
 
 
 @Composable
@@ -42,9 +43,11 @@ fun LoginScreen(navigationController: NavHostController) {
         LoginDivider()
         Text(
             text = "REGISTRATE",
-            Modifier.padding(8.dp).clickable {
-                navigationController.navigate(Routes.Register.route)
-            },
+            Modifier
+                .padding(8.dp)
+                .clickable {
+                    navigationController.navigate(Routes.Register.route)
+                },
             color = Color(0xff0097a7),
             fontWeight = FontWeight.Bold
         )
@@ -64,7 +67,7 @@ fun LoginDivider() {
                 .weight(1f)
         )
         Text(
-            text = "OR",
+            text = "O",
             modifier = Modifier.padding(horizontal = 18.dp),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
@@ -117,19 +120,10 @@ fun Password(modifier: Modifier) {
         mutableStateOf("")
     }
 
-    OutlinedTextField(
-        value = password ,
-        onValueChange = { password = it },
-        modifier = modifier,
-        placeholder = { Text(text = "Contraseña") },
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = Color(0xFFB2B2B2),
-            backgroundColor = Color(0xFFFAFAFA),
-            focusedBorderColor = Color(0xff00bcd4),
-        ),
+    CustomTextFieldOutlined(
+        label = "Contraseña",
+        textValue = password,
+        onTextChanged = { password = it },
         trailingIcon = {
             val image = if(passwordVisibility) {
                 Icons.Filled.VisibilityOff
@@ -140,6 +134,7 @@ fun Password(modifier: Modifier) {
                 Icon(imageVector = image, contentDescription = "Show password")
             }
         },
+        modifier = modifier,
         visualTransformation = if (passwordVisibility) {
             VisualTransformation.None
         } else {
@@ -154,20 +149,12 @@ fun Email(modifier: Modifier) {
         mutableStateOf("")
     }
 
-    OutlinedTextField(
-        value = email ,
-        onValueChange = { email = it },
-        modifier = modifier,
-        placeholder = { Text(text = "Email") },
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = Color(0xFFB2B2B2),
-            backgroundColor = Color(0xFFFAFAFA),
-            focusedBorderColor = Color(0xff00bcd4),
-        ),
-        trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) }
+    CustomTextFieldOutlined(
+        label = "Email",
+        textValue = email,
+        onTextChanged = { email = it },
+        trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) },
+        modifier = modifier
     )
 }
 
