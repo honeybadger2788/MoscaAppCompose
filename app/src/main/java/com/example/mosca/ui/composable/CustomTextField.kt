@@ -17,7 +17,8 @@ fun CustomTextFieldOutlined(
     onTextChanged: (String) -> Unit,
     trailingIcon: @Composable () -> Unit = {},
     modifier: Modifier,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     OutlinedTextField(
         value = textValue ,
@@ -26,7 +27,7 @@ fun CustomTextFieldOutlined(
         label = { Text(text = label) },
         maxLines = 1,
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = Color.DarkGray,
             backgroundColor = Color(0xFFFAFAFA),
