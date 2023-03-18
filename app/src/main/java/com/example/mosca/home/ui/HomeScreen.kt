@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.mosca.home.ui.model.ExpenseModel
+import com.example.mosca.model.Routes
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
 
@@ -72,7 +73,7 @@ fun Header(modifier: Modifier, navigationController: NavHostController) {
         contentDescription = "logout",
         tint = Color.Gray,
         modifier = modifier
-            .clickable { navigationController },
+            .clickable { navigationController.navigate(Routes.Login.route) },
     )
 }
 
