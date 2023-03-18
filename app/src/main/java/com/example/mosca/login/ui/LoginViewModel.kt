@@ -15,7 +15,6 @@ class LoginViewModel:ViewModel() {
     private val _isLoginEnable = MutableLiveData<Boolean>()
     val isLoginEnable: LiveData<Boolean> = _isLoginEnable
 
-
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
         _password.value = password
@@ -25,5 +24,11 @@ class LoginViewModel:ViewModel() {
     private fun enableLogin(email: String, password: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches() &&
                 password.length > 6
+    }
+
+    fun onLogin(){
+        _email.value = ""
+        _password.value = ""
+        _isLoginEnable.value = false
     }
 }
