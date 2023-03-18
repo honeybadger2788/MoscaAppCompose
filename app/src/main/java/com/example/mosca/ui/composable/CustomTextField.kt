@@ -15,7 +15,7 @@ fun CustomTextFieldOutlined(
     label: String,
     textValue: String,
     onTextChanged: (String) -> Unit,
-    trailingIcon: @Composable () -> Unit = {},
+    trailingIcon: @Composable (() -> Unit)? = null,
     modifier: Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text
