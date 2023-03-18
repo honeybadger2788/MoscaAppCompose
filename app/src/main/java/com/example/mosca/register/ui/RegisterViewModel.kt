@@ -18,7 +18,6 @@ class RegisterViewModel: ViewModel() {
     private val _isRegisterEnable = MutableLiveData<Boolean>()
     val isRegisterEnable: LiveData<Boolean> = _isRegisterEnable
 
-
     fun onRegisterChanged(email: String, password: String, confirmPassword: String) {
         _email.value = email
         _password.value = password
@@ -29,5 +28,11 @@ class RegisterViewModel: ViewModel() {
     private fun enableRegister(email: String, password: String, confirmPassword: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches() &&
                 password.length > 6 && password == confirmPassword
+    }
+
+    fun onRegister() {
+        _email.value = ""
+        _password.value = ""
+        _confirmPassword.value = ""
     }
 }

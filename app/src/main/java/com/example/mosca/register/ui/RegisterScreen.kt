@@ -1,7 +1,6 @@
 package com.example.mosca.register.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,32 +13,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.mosca.R
-import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.model.Routes
+import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
 
 
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, navigationController: NavHostController) {
-    TopAppBar(backgroundColor = Color.Transparent, elevation = 0.dp) {
-        Icon(
-            imageVector = Icons.Filled.ArrowBackIos,
-            contentDescription = "back",
-            tint = Color.Gray,
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .clickable {
-                    navigationController.navigate(Routes.Login.route)
-                }
-        )
-    }
     Column(
         Modifier
             .fillMaxSize()
@@ -48,12 +34,16 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, navigationController: N
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BrandLogo()
-        RegisterForm(Modifier.padding(vertical = 16.dp), registerViewModel)
+        RegisterForm(Modifier.padding(vertical = 16.dp), registerViewModel, navigationController)
     }
 }
 
 @Composable
-fun RegisterForm(modifier: Modifier, registerViewModel: RegisterViewModel) {
+fun RegisterForm(
+    modifier: Modifier,
+    registerViewModel: RegisterViewModel,
+    navigationController: NavHostController
+) {
     val email: String by registerViewModel.email.observeAsState(initial = "")
     val password: String by registerViewModel.password.observeAsState(initial = "")
     val confirmPassword: String by registerViewModel.confirmPassword.observeAsState(initial = "")
@@ -79,13 +69,24 @@ fun RegisterForm(modifier: Modifier, registerViewModel: RegisterViewModel) {
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(16.dp))
-        RegisterButton(isRegisterEnable)
+        RegisterButton(isRegisterEnable, navigationController, registerViewModel)
     }
 }
 
 @Composable
-fun RegisterButton(isLoginEnable: Boolean) {
-    DefaultButton(text = "REGISTRAR", onClick = { /*TODO*/ }, enabled = isLoginEnable)
+fun RegisterButton(
+    isLoginEnable: Boolean,
+    navigationController: NavHostController,
+    registerViewModel: RegisterViewModel
+) {
+    DefaultButton(
+        text = "REGISTRAR",
+        onClick = {
+            registerViewModel.onRegister()
+            navigationController.navigate(Routes.Login.route)
+        },
+        enabled = isLoginEnable
+    )
 }
 
 @Composable
