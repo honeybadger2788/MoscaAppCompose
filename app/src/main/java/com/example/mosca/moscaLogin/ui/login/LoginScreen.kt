@@ -1,6 +1,5 @@
-package com.example.mosca.login.ui
+package com.example.mosca.moscaLogin.ui.login
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,22 +8,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.mosca.R
 import com.example.mosca.model.Routes
+import com.example.mosca.ui.composable.BrandLogo
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
 
@@ -161,11 +158,4 @@ fun Email(email: String, onTextChanged:(String) -> Unit, modifier: Modifier) {
     )
 }
 
-@Composable
-fun BrandLogo() {
-    Image(
-        painter = painterResource(id = R.drawable.fly),
-        contentDescription = "logo",
-        modifier = Modifier.width(64.dp)
-    )
-}
+

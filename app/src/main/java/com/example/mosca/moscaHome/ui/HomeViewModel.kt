@@ -1,11 +1,10 @@
-package com.example.mosca.home.ui
+package com.example.mosca.moscaHome.ui
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mosca.home.ui.model.ExpenseModel
+import com.example.mosca.moscaHome.ui.model.ExpenseModel
 
 class HomeViewModel:ViewModel() {
     private val _showDialog = MutableLiveData<Boolean>()

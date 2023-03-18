@@ -1,4 +1,4 @@
-package com.example.mosca.register.ui
+package com.example.mosca.moscaLogin.ui.register
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData

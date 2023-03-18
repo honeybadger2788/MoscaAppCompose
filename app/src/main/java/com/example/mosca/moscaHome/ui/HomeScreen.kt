@@ -1,4 +1,4 @@
-package com.example.mosca.home.ui
+package com.example.mosca.moscaHome.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
-import com.example.mosca.home.ui.model.ExpenseModel
+import com.example.mosca.moscaHome.ui.model.ExpenseModel
 import com.example.mosca.model.Routes
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton

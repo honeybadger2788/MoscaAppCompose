@@ -11,13 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mosca.home.ui.HomeScreen
-import com.example.mosca.home.ui.HomeViewModel
-import com.example.mosca.login.ui.LoginScreen
-import com.example.mosca.login.ui.LoginViewModel
-import com.example.mosca.register.ui.RegisterScreen
+import com.example.mosca.moscaHome.ui.HomeScreen
+import com.example.mosca.moscaHome.ui.HomeViewModel
+import com.example.mosca.moscaLogin.ui.login.LoginScreen
+import com.example.mosca.moscaLogin.ui.login.LoginViewModel
+import com.example.mosca.moscaLogin.ui.register.RegisterScreen
 import com.example.mosca.model.Routes
-import com.example.mosca.register.ui.RegisterViewModel
+import com.example.mosca.moscaLogin.ui.register.RegisterViewModel
 import com.example.mosca.ui.theme.MoscaTheme
 
 class MainActivity : ComponentActivity() {

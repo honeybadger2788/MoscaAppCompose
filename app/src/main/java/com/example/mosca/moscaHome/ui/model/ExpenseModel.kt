@@ -1,4 +1,4 @@
-package com.example.mosca.home.ui.model
+package com.example.mosca.moscaHome.ui.model
 
 data class ExpenseModel(
     var id: Long = System.currentTimeMillis(),

@@ -1,6 +1,5 @@
-package com.example.mosca.register.ui
+package com.example.mosca.moscaLogin.ui.register
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,13 +12,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.mosca.R
 import com.example.mosca.model.Routes
+import com.example.mosca.ui.composable.BrandLogo
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
 
@@ -56,7 +54,7 @@ fun RegisterForm(
             Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(8.dp))
-        Password(
+        com.example.mosca.moscaLogin.ui.login.Password(
             password = password,
             onTextChanged = { registerViewModel.onRegisterChanged(email, it, confirmPassword) },
             modifier = Modifier.fillMaxWidth()
@@ -126,14 +124,5 @@ fun Email(email: String, onTextChanged: (String)->Unit ,modifier: Modifier) {
         onTextChanged = { onTextChanged(it) },
         trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) },
         modifier = modifier
-    )
-}
-
-@Composable
-fun BrandLogo() {
-    Image(
-        painter = painterResource(id = R.drawable.fly),
-        contentDescription = "logo",
-        modifier = Modifier.width(64.dp)
     )
 }
