@@ -5,8 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Logout
@@ -29,6 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.mosca.home.ui.model.ExpenseModel
+import com.example.mosca.ui.composable.CustomTextFieldOutlined
+import com.example.mosca.ui.composable.DefaultButton
 
 
 @Composable
@@ -41,7 +45,10 @@ fun HomeScreen(homeViewModel: HomeViewModel, navigationController: NavHostContro
         Modifier
             .fillMaxSize()) {
         AddExpensesDialog(showDialog, homeViewModel, budget)
-        Header(Modifier.align(Alignment.End).padding(8.dp),navigationController = navigationController)
+        Header(
+            Modifier
+                .align(Alignment.End)
+                .padding(8.dp),navigationController = navigationController)
         Body(Modifier.weight(1f), budget, homeViewModel)
         FabDialog(Modifier.align(Alignment.End)) { homeViewModel.onShowDialogClick() }
     }
@@ -158,42 +165,33 @@ fun AddExpensesDialog(show: Boolean, homeViewModel: HomeViewModel, budget: Doubl
                 )
                 Spacer(modifier = Modifier.size(16.dp))
                 Row {
-                    TextField(
-                        modifier = Modifier.weight(2f),
-                        placeholder = { Text(text = "Detalle") },
-                        value = detail,
-                        onValueChange = { detail = it },
-                        singleLine = true,
-                        maxLines = 1
+                    CustomTextFieldOutlined(
+                        label = "Detalle",
+                        textValue = detail,
+                        onTextChanged = { detail = it },
+                        modifier = Modifier.weight(2f)
                     )
                     Spacer(modifier = Modifier.size(8.dp))
-                    TextField(
+                    CustomTextFieldOutlined(
+                        label = "$",
+                        textValue = amount,
+                        onTextChanged = { amount = it },
                         modifier = Modifier.weight(1f),
-                        placeholder = { Text(text = "$") },
-                        value = amount,
-                        onValueChange = { amount = it },
-                        singleLine = true,
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardType = KeyboardType.Number
                     )
                 }
                 Spacer(modifier = Modifier.size(16.dp))
-                Button(
-                    onClick = {
-                        homeViewModel.onExpenseCreated(
-                            ExpenseModel(
-                                detail = detail,
-                                amount = amount.toDouble()
-                            ),
-                            budget
-                        )
-                        amount = ""
-                        detail = ""
-                    },
-                    Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Agregar")
-                }
+                DefaultButton(text = "AGREGAR", onClick = {
+                    homeViewModel.onExpenseCreated(
+                        ExpenseModel(
+                            detail = detail,
+                            amount = amount.toDouble()
+                        ),
+                        budget
+                    )
+                    amount = ""
+                    detail = ""
+                })
             }
         }
     }
