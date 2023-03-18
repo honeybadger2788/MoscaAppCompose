@@ -34,5 +34,6 @@ class RegisterViewModel: ViewModel() {
         _email.value = ""
         _password.value = ""
         _confirmPassword.value = ""
+        _isRegisterEnable.value = false
     }
 }
