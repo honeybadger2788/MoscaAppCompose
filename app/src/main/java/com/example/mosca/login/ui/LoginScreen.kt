@@ -102,14 +102,19 @@ fun LoginForm(modifier: Modifier, navigationController: NavHostController, login
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(navigationController, isLoginEnable)
+        LoginButton(navigationController, isLoginEnable, loginViewModel)
     }
 }
 
 @Composable
-fun LoginButton(navigationController: NavHostController, isLoginEnable: Boolean) {
+fun LoginButton(
+    navigationController: NavHostController,
+    isLoginEnable: Boolean,
+    loginViewModel: LoginViewModel
+) {
     DefaultButton(
         text = "INGRESAR", onClick = {
+            loginViewModel.onLogin()
             navigationController.navigate(Routes.Home.route)
         },
         enabled = isLoginEnable
