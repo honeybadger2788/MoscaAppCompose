@@ -57,7 +57,7 @@ fun RegisterForm(modifier: Modifier, registerViewModel: RegisterViewModel) {
     val email: String by registerViewModel.email.observeAsState(initial = "")
     val password: String by registerViewModel.password.observeAsState(initial = "")
     val confirmPassword: String by registerViewModel.confirmPassword.observeAsState(initial = "")
-    val isLoginEnable: Boolean by registerViewModel.isRegisterEnable.observeAsState(initial = false)
+    val isRegisterEnable: Boolean by registerViewModel.isRegisterEnable.observeAsState(initial = false)
 
     Column (modifier = modifier) {
         Email(
@@ -79,7 +79,7 @@ fun RegisterForm(modifier: Modifier, registerViewModel: RegisterViewModel) {
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(16.dp))
-        RegisterButton(isLoginEnable)
+        RegisterButton(isRegisterEnable)
     }
 }
 
