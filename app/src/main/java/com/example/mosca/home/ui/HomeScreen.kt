@@ -1,13 +1,15 @@
 package com.example.mosca.home.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.outlined.ArrowDownward
 import androidx.compose.material.icons.outlined.ArrowUpward
 import androidx.compose.runtime.Composable
@@ -27,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.mosca.home.ui.model.ExpenseModel
-import com.example.mosca.model.Routes
 
 
 @Composable
@@ -36,36 +37,35 @@ fun HomeScreen(homeViewModel: HomeViewModel, navigationController: NavHostContro
 
     val budget: Double by homeViewModel.budget.observeAsState(0.00)
 
-    Box(
+    Column(
         Modifier
             .fillMaxSize()) {
         AddExpensesDialog(showDialog, homeViewModel, budget)
-        Column {
-            TopBar(navigationController)
-            Budget(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp), budget)
-            ExpensesList(Modifier.padding(16.dp), homeViewModel)
-        }
-        FabDialog(Modifier.align(Alignment.BottomEnd)) { homeViewModel.onShowDialogClick() }
+        Header(Modifier.align(Alignment.End).padding(8.dp),navigationController = navigationController)
+        Body(Modifier.weight(1f), budget, homeViewModel)
+        FabDialog(Modifier.align(Alignment.End)) { homeViewModel.onShowDialogClick() }
     }
 }
 
 @Composable
-fun TopBar(navigationController: NavHostController) {
-    TopAppBar(title = { /*Text(text = "Mosca", color = Color.Gray, fontWeight = FontWeight.Bold)*/ },
-        backgroundColor = Color.Transparent,
-        elevation = 0.dp,
-        actions = {
-            IconButton(onClick = { navigationController.navigate(Routes.Login.route) }) {
-                Icon(
-                    imageVector = Icons.Filled.Logout,
-                    contentDescription = "logout",
-                    tint = Color.Gray
-                )
-            }
-        }
+fun Body(modifier: Modifier, budget: Double, homeViewModel: HomeViewModel) {
+    Column(modifier = modifier) {
+        Budget(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp), budget)
+        ExpensesList(Modifier.padding(16.dp), homeViewModel)
+    }
+}
+
+@Composable
+fun Header(modifier: Modifier, navigationController: NavHostController) {
+    Icon(
+        imageVector = Icons.Default.Logout,
+        contentDescription = "logout",
+        tint = Color.Gray,
+        modifier = modifier
+            .clickable { navigationController },
     )
 }
 
@@ -127,7 +127,7 @@ fun Budget(modifier: Modifier, budget: Double) {
 fun FabDialog(modifier: Modifier, showDialog: () -> Unit) {
     FloatingActionButton(onClick = { showDialog() },
         modifier = modifier.padding(16.dp),
-        backgroundColor = Color(0xffffd740)
+        backgroundColor = Color(0xffffd740),
     ) {
         Icon(imageVector = Icons.Filled.Add, contentDescription = "")
     }
