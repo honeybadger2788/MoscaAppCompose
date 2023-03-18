@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -12,13 +11,13 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -31,7 +30,7 @@ import com.example.mosca.ui.composable.DefaultButton
 
 
 @Composable
-fun LoginScreen(navigationController: NavHostController) {
+fun LoginScreen(loginViewModel: LoginViewModel, navigationController: NavHostController) {
     Column(
         Modifier
             .fillMaxSize()
@@ -40,7 +39,7 @@ fun LoginScreen(navigationController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BrandLogo()
-        LoginForm(Modifier.padding(vertical = 16.dp), navigationController)
+        LoginForm(Modifier.padding(vertical = 16.dp), navigationController, loginViewModel)
         LoginDivider()
         Text(
             text = "REGISTRATE",
@@ -50,7 +49,8 @@ fun LoginScreen(navigationController: NavHostController) {
                     navigationController.navigate(Routes.Register.route)
                 },
             color = Color(0xff0097a7),
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontSize = 12.sp
         )
     }
 }
@@ -84,37 +84,48 @@ fun LoginDivider() {
 }
 
 @Composable
-fun LoginForm(modifier: Modifier, navigationController: NavHostController) {
+fun LoginForm(modifier: Modifier, navigationController: NavHostController, loginViewModel: LoginViewModel) {
+    val email: String by loginViewModel.email.observeAsState(initial = "")
+    val password: String by loginViewModel.password.observeAsState(initial = "")
+    val isLoginEnable: Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
+
     Column (modifier = modifier) {
-        Email(Modifier.fillMaxWidth())
+        Email(
+            email = email,
+            onTextChanged = { loginViewModel.onLoginChanged(it, password) },
+            modifier = Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.size(8.dp))
-        Password(Modifier.fillMaxWidth())
+        Password(
+            password = password,
+            onTextChanged = { loginViewModel.onLoginChanged(email, it) },
+            modifier = Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(navigationController)
+        LoginButton(navigationController, isLoginEnable)
     }
 }
 
 @Composable
-fun LoginButton(navigationController: NavHostController) {
-    DefaultButton(text = "INGRESAR", onClick = {
-        navigationController.navigate(Routes.Home.route)
-    })
+fun LoginButton(navigationController: NavHostController, isLoginEnable: Boolean) {
+    DefaultButton(
+        text = "INGRESAR", onClick = {
+            navigationController.navigate(Routes.Home.route)
+        },
+        enabled = isLoginEnable
+    )
 }
 
 @Composable
-fun Password(modifier: Modifier) {
+fun Password(password: String, onTextChanged: (String) -> Unit, modifier: Modifier) {
     var passwordVisibility by rememberSaveable {
         mutableStateOf(false)
-    }
-
-    var password by rememberSaveable {
-        mutableStateOf("")
     }
 
     CustomTextFieldOutlined(
         label = "Contraseña",
         textValue = password,
-        onTextChanged = { password = it },
+        onTextChanged = { onTextChanged(it) },
         trailingIcon = {
             val image = if(passwordVisibility) {
                 Icons.Filled.VisibilityOff
@@ -135,15 +146,11 @@ fun Password(modifier: Modifier) {
 }
 
 @Composable
-fun Email(modifier: Modifier) {
-    var email by rememberSaveable {
-        mutableStateOf("")
-    }
-
+fun Email(email: String, onTextChanged:(String) -> Unit, modifier: Modifier) {
     CustomTextFieldOutlined(
         label = "Email",
         textValue = email,
-        onTextChanged = { email = it },
+        onTextChanged = { onTextChanged(it) },
         trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) },
         modifier = modifier
     )
