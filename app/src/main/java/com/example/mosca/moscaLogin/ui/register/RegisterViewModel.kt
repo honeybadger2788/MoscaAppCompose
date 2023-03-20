@@ -42,7 +42,7 @@ class RegisterViewModel @Inject constructor(
 
     fun onRegister(user: UserRegisterModel) {
         viewModelScope.launch {
-            createAccountUseCase.invoke(user)
+            createAccountUseCase(user)
         }
         _email.value = ""
         _password.value = ""
