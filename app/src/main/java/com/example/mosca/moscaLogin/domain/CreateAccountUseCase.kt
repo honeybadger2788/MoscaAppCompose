@@ -10,9 +10,12 @@ class CreateAccountUseCase @Inject constructor(
     private val userService: UserService
 ) {
 
-    suspend fun invoke(userRegisterModel: UserRegisterModel): Boolean{
+    suspend operator fun invoke(userRegisterModel: UserRegisterModel): Boolean{
         val accountCreated =
-            authenticationService.createAccount(userRegisterModel.email, userRegisterModel.password) != null
+            authenticationService.createAccount(
+                userRegisterModel.email,
+                userRegisterModel.password
+            ) != null
         return if (accountCreated) {
             userService.createUserTable(userRegisterModel)
         } else {
