@@ -19,7 +19,10 @@ import com.example.mosca.moscaLogin.ui.register.RegisterScreen
 import com.example.mosca.model.Routes
 import com.example.mosca.moscaLogin.ui.register.RegisterViewModel
 import com.example.mosca.ui.theme.MoscaTheme
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val homeViewModel: HomeViewModel by viewModels()
