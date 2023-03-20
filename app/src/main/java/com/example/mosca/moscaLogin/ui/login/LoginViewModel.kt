@@ -1,12 +1,21 @@
 package com.example.mosca.moscaLogin.ui.login
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.mosca.moscaLogin.domain.LoginUseCase
 import com.example.mosca.moscaLogin.ui.login.model.UserLoginModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel:ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase
+) :ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
@@ -28,6 +37,12 @@ class LoginViewModel:ViewModel() {
     }
 
     fun onLogin(user: UserLoginModel){
+        viewModelScope.launch {
+            if (loginUseCase(user))
+                Log.i("Noe", "Usuario logueado")
+            else
+                Log.i("Noe", "Error")
+        }
         _email.value = ""
         _password.value = ""
         _isLoginEnable.value = false
