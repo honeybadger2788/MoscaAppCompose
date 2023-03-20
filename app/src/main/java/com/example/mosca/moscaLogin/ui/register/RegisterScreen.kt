@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.mosca.model.Routes
+import com.example.mosca.moscaLogin.ui.register.model.UserRegisterModel
 import com.example.mosca.ui.composable.BrandLogo
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
@@ -50,24 +51,24 @@ fun RegisterForm(
     Column (modifier = modifier) {
         Email(
             email,
-            { registerViewModel.onRegisterChanged(UserRegisterModel(it, password, confirmPassword)) },
+            { registerViewModel.onRegisterChanged(it, password, confirmPassword) },
             Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(8.dp))
         com.example.mosca.moscaLogin.ui.login.Password(
             password = password,
-            onTextChanged = { registerViewModel.onRegisterChanged(UserRegisterModel(email, it, confirmPassword)) },
+            onTextChanged = { registerViewModel.onRegisterChanged(email, it, confirmPassword) },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(8.dp))
         Password(
             password = confirmPassword,
             label = "Confirmar contraseña",
-            onTextChanged = { registerViewModel.onRegisterChanged(UserRegisterModel(email, password, it)) },
+            onTextChanged = { registerViewModel.onRegisterChanged(email, password, it) },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(16.dp))
-        RegisterButton(isRegisterEnable, navigationController, registerViewModel)
+        RegisterButton(isRegisterEnable, navigationController, registerViewModel, UserRegisterModel(email, password, confirmPassword))
     }
 }
 
@@ -75,12 +76,13 @@ fun RegisterForm(
 fun RegisterButton(
     isLoginEnable: Boolean,
     navigationController: NavHostController,
-    registerViewModel: RegisterViewModel
+    registerViewModel: RegisterViewModel,
+    userRegisterModel: UserRegisterModel
 ) {
     DefaultButton(
-        text = "REGISTRAR",
+        text = "CREAR CUENTA",
         onClick = {
-            registerViewModel.onRegister()
+            registerViewModel.onRegister(userRegisterModel)
             navigationController.navigate(Routes.Login.route)
         },
         enabled = isLoginEnable
