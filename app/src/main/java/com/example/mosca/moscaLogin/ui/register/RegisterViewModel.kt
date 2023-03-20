@@ -4,9 +4,18 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.mosca.moscaLogin.domain.CreateAccountUseCase
 import com.example.mosca.moscaLogin.ui.register.model.UserRegisterModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterViewModel: ViewModel() {
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val createAccountUseCase: CreateAccountUseCase
+): ViewModel() {
+
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
@@ -32,6 +41,9 @@ class RegisterViewModel: ViewModel() {
     }
 
     fun onRegister(user: UserRegisterModel) {
+        viewModelScope.launch {
+            createAccountUseCase.invoke(user)
+        }
         _email.value = ""
         _password.value = ""
         _confirmPassword.value = ""
