@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mosca.model.Routes
+import com.example.mosca.moscaLogin.ui.login.model.UserLoginModel
 import com.example.mosca.ui.composable.BrandLogo
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
@@ -99,7 +100,7 @@ fun LoginForm(modifier: Modifier, navigationController: NavHostController, login
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(navigationController, isLoginEnable, loginViewModel)
+        LoginButton(navigationController, isLoginEnable, loginViewModel, UserLoginModel(email, password))
     }
 }
 
@@ -107,11 +108,12 @@ fun LoginForm(modifier: Modifier, navigationController: NavHostController, login
 fun LoginButton(
     navigationController: NavHostController,
     isLoginEnable: Boolean,
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel,
+    userLoginModel: UserLoginModel
 ) {
     DefaultButton(
         text = "INGRESAR", onClick = {
-            loginViewModel.onLogin()
+            loginViewModel.onLogin(userLoginModel)
             navigationController.navigate(Routes.Home.route)
         },
         enabled = isLoginEnable

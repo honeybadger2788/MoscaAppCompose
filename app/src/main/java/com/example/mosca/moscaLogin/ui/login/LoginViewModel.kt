@@ -4,6 +4,7 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mosca.moscaLogin.ui.login.model.UserLoginModel
 
 class LoginViewModel:ViewModel() {
     private val _email = MutableLiveData<String>()
@@ -26,7 +27,7 @@ class LoginViewModel:ViewModel() {
                 password.length > 6
     }
 
-    fun onLogin(){
+    fun onLogin(user: UserLoginModel){
         _email.value = ""
         _password.value = ""
         _isLoginEnable.value = false
