@@ -111,10 +111,14 @@ fun LoginButton(
     loginViewModel: LoginViewModel,
     userLoginModel: UserLoginModel
 ) {
+    val userLoggedIn: Boolean by loginViewModel.userLoggedIn.observeAsState(initial = false)
+
     DefaultButton(
         text = "INGRESAR", onClick = {
             loginViewModel.onLogin(userLoginModel)
-            navigationController.navigate(Routes.Home.route)
+            if(userLoggedIn){
+                navigationController.navigate(Routes.Home.route)
+            }
         },
         enabled = isLoginEnable
     )

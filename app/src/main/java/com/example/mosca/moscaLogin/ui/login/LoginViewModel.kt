@@ -25,6 +25,9 @@ class LoginViewModel @Inject constructor(
     private val _isLoginEnable = MutableLiveData<Boolean>()
     val isLoginEnable: LiveData<Boolean> = _isLoginEnable
 
+    private val _userLoggedIn = MutableLiveData<Boolean>()
+    val userLoggedIn: LiveData<Boolean> = _userLoggedIn
+
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
         _password.value = password
@@ -36,15 +39,14 @@ class LoginViewModel @Inject constructor(
                 password.length > 6
     }
 
-    fun onLogin(user: UserLoginModel){
+    fun onLogin(user: UserLoginModel) {
         viewModelScope.launch {
-            if (loginUseCase(user))
-                Log.i("Noe", "Usuario logueado")
-            else
-                Log.i("Noe", "Error")
+            if(loginUseCase(user)){
+                _userLoggedIn.value = true
+                _email.value = ""
+                _password.value = ""
+                _isLoginEnable.value = false
+            }
         }
-        _email.value = ""
-        _password.value = ""
-        _isLoginEnable.value = false
     }
 }
