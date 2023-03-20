@@ -50,20 +50,20 @@ fun RegisterForm(
     Column (modifier = modifier) {
         Email(
             email,
-            { registerViewModel.onRegisterChanged(it, password, confirmPassword) },
+            { registerViewModel.onRegisterChanged(UserRegisterModel(it, password, confirmPassword)) },
             Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(8.dp))
         com.example.mosca.moscaLogin.ui.login.Password(
             password = password,
-            onTextChanged = { registerViewModel.onRegisterChanged(email, it, confirmPassword) },
+            onTextChanged = { registerViewModel.onRegisterChanged(UserRegisterModel(email, it, confirmPassword)) },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(8.dp))
         Password(
             password = confirmPassword,
             label = "Confirmar contraseña",
-            onTextChanged = { registerViewModel.onRegisterChanged(email, password, it) },
+            onTextChanged = { registerViewModel.onRegisterChanged(UserRegisterModel(email, password, it)) },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(16.dp))
