@@ -25,6 +25,7 @@ import com.example.mosca.moscaLogin.ui.login.model.UserLoginModel
 import com.example.mosca.ui.composable.BrandLogo
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
+import com.example.mosca.ui.composable.ErrorMessage
 
 
 @Composable
@@ -86,8 +87,11 @@ fun LoginForm(modifier: Modifier, navigationController: NavHostController, login
     val email: String by loginViewModel.email.observeAsState(initial = "")
     val password: String by loginViewModel.password.observeAsState(initial = "")
     val isLoginEnable: Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
+    val showError: Boolean by loginViewModel.showError.observeAsState(initial = false)
 
     Column (modifier = modifier) {
+        if (showError)
+            ErrorMessage(message = "Algo salió mal")
         Email(
             email = email,
             onTextChanged = { loginViewModel.onLoginChanged(it, password) },
@@ -100,25 +104,22 @@ fun LoginForm(modifier: Modifier, navigationController: NavHostController, login
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(navigationController, isLoginEnable, loginViewModel, UserLoginModel(email, password))
+        LoginButton(
+            isLoginEnable,
+        ) { loginViewModel.onLogin(UserLoginModel(email, password)) }
     }
 }
 
 @Composable
 fun LoginButton(
-    navigationController: NavHostController,
     isLoginEnable: Boolean,
-    loginViewModel: LoginViewModel,
-    userLoginModel: UserLoginModel
+    onClickLogin: () -> Unit
 ) {
-    val userLoggedIn: Boolean by loginViewModel.userLoggedIn.observeAsState(initial = false)
 
     DefaultButton(
         text = "INGRESAR", onClick = {
-            loginViewModel.onLogin(userLoginModel)
-            if(userLoggedIn){
-                navigationController.navigate(Routes.Home.route)
-            }
+            onClickLogin()
+            //navigationController.navigate(Routes.Home.route)
         },
         enabled = isLoginEnable
     )

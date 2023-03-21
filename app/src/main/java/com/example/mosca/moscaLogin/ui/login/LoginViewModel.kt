@@ -1,11 +1,12 @@
 package com.example.mosca.moscaLogin.ui.login
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mosca.moscaLogin.data.response.LoginResult.Error
+import com.example.mosca.moscaLogin.data.response.LoginResult.Success
 import com.example.mosca.moscaLogin.domain.LoginUseCase
 import com.example.mosca.moscaLogin.ui.login.model.UserLoginModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,8 +26,8 @@ class LoginViewModel @Inject constructor(
     private val _isLoginEnable = MutableLiveData<Boolean>()
     val isLoginEnable: LiveData<Boolean> = _isLoginEnable
 
-    private val _userLoggedIn = MutableLiveData<Boolean>()
-    val userLoggedIn: LiveData<Boolean> = _userLoggedIn
+    private val _showError = MutableLiveData<Boolean>()
+    val showError: LiveData<Boolean> = _showError
 
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
@@ -41,11 +42,16 @@ class LoginViewModel @Inject constructor(
 
     fun onLogin(user: UserLoginModel) {
         viewModelScope.launch {
-            if(loginUseCase(user)){
-                _userLoggedIn.value = true
-                _email.value = ""
-                _password.value = ""
-                _isLoginEnable.value = false
+            when(loginUseCase(user)) {
+                Success -> {
+                    _showError.value = false
+                    _email.value = ""
+                    _password.value = ""
+                    _isLoginEnable.value = false
+                }
+                Error -> {
+                    _showError.value = true
+                }
             }
         }
     }
