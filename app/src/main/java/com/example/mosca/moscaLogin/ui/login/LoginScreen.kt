@@ -3,17 +3,24 @@ package com.example.mosca.moscaLogin.ui.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -30,6 +37,14 @@ import com.example.mosca.ui.composable.ErrorMessage
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel, navigationController: NavHostController) {
+    val lifecycle = LocalLifecycleOwner.current
+
+    loginViewModel.navigateToHome.observe(lifecycle) {
+        it.getContentIfNotHandled()?.let {
+            navigationController.navigate(Routes.Home.route)
+        }
+    }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -38,7 +53,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, navigationController: NavHostCon
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BrandLogo()
-        LoginForm(Modifier.padding(vertical = 16.dp), navigationController, loginViewModel)
+        LoginForm(Modifier.padding(vertical = 16.dp), loginViewModel)
         LoginDivider()
         Text(
             text = "REGISTRATE",
@@ -53,6 +68,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, navigationController: NavHostCon
         )
     }
 }
+
 
 @Composable
 fun LoginDivider() {
@@ -83,7 +99,7 @@ fun LoginDivider() {
 }
 
 @Composable
-fun LoginForm(modifier: Modifier, navigationController: NavHostController, loginViewModel: LoginViewModel) {
+fun LoginForm(modifier: Modifier, loginViewModel: LoginViewModel) {
     val email: String by loginViewModel.email.observeAsState(initial = "")
     val password: String by loginViewModel.password.observeAsState(initial = "")
     val isLoginEnable: Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
@@ -119,7 +135,6 @@ fun LoginButton(
     DefaultButton(
         text = "INGRESAR", onClick = {
             onClickLogin()
-            //navigationController.navigate(Routes.Home.route)
         },
         enabled = isLoginEnable
     )

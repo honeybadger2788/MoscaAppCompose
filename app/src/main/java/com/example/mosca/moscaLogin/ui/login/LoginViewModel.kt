@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mosca.core.Event
 import com.example.mosca.moscaLogin.data.response.LoginResult.Error
 import com.example.mosca.moscaLogin.data.response.LoginResult.Success
 import com.example.mosca.moscaLogin.domain.LoginUseCase
@@ -29,6 +30,10 @@ class LoginViewModel @Inject constructor(
     private val _showError = MutableLiveData<Boolean>()
     val showError: LiveData<Boolean> = _showError
 
+    private val _navigateToHome = MutableLiveData<Event<Boolean>>()
+    val navigateToHome: LiveData<Event<Boolean>>
+        get() = _navigateToHome
+
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
         _password.value = password
@@ -48,9 +53,11 @@ class LoginViewModel @Inject constructor(
                     _email.value = ""
                     _password.value = ""
                     _isLoginEnable.value = false
+                    _navigateToHome.value = Event(true)
                 }
                 Error -> {
                     _showError.value = true
+                    _isLoginEnable.value = false
                 }
             }
         }
