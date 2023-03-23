@@ -5,21 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.ArrowDownward
 import androidx.compose.material.icons.outlined.ArrowUpward
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,19 +32,47 @@ import com.example.mosca.ui.composable.DefaultButton
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel, navigationController: NavHostController) {
     val showDialog: Boolean by homeViewModel.showDialog.observeAsState(false)
-
     val budget: Double by homeViewModel.budget.observeAsState(0.00)
+    val scaffoldState = rememberScaffoldState()
 
-    Column(
-        Modifier
-            .fillMaxSize()) {
+    Scaffold(
+        scaffoldState = scaffoldState,
+        bottomBar = { BottomNav { navigationController.navigate(Routes.Login.route) } },
+        floatingActionButton = { FabDialog(){ homeViewModel.onShowDialogClick() } },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true
+    ) {
         AddExpensesDialog(showDialog, homeViewModel, budget)
-        Header(
-            Modifier
-                .align(Alignment.End)
-                .padding(8.dp),navigationController = navigationController)
-        Body(Modifier.weight(1f), budget, homeViewModel)
-        FabDialog(Modifier.align(Alignment.End)) { homeViewModel.onShowDialogClick() }
+        Body(Modifier.padding(it), budget, homeViewModel)
+    }
+}
+
+@Composable
+fun BottomNav(logout: () -> Unit) {
+    BottomNavigation(
+        backgroundColor = Color(0xff0097a7),
+        contentColor = Color.White
+    ) {
+        BottomNavigationItem(
+            selected = true,
+            onClick = {  },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Home"
+                )},
+            label = { Text(text = "Home")}
+        )
+        BottomNavigationItem(
+            selected = false,
+            onClick = { logout() },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Logout,
+                    contentDescription = "Logout"
+                )},
+            label = { Text(text = "Logout")}
+        )
     }
 }
 
@@ -61,7 +82,7 @@ fun Body(modifier: Modifier, budget: Double, homeViewModel: HomeViewModel) {
         Budget(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp), budget)
+                .padding(vertical = 8.dp, horizontal = 16.dp), budget)
         ExpensesList(Modifier.padding(16.dp), homeViewModel)
     }
 }
@@ -132,9 +153,9 @@ fun Budget(modifier: Modifier, budget: Double) {
 }
 
 @Composable
-fun FabDialog(modifier: Modifier, showDialog: () -> Unit) {
+fun FabDialog(/*modifier: Modifier,*/ showDialog: () -> Unit) {
     FloatingActionButton(onClick = { showDialog() },
-        modifier = modifier.padding(16.dp),
+        modifier = Modifier.padding(16.dp),
         backgroundColor = Color(0xffffd740),
     ) {
         Icon(imageVector = Icons.Filled.Add, contentDescription = "")
