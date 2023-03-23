@@ -1,6 +1,6 @@
-package com.example.mosca.moscaLogin.data.network
+package com.example.mosca.data.network
 
-import com.example.mosca.moscaLogin.ui.register.model.UserRegisterModel
+import com.example.mosca.ui.screen.register.model.UserRegisterModel
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 

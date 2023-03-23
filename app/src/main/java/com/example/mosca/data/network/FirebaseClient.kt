@@ -1,4 +1,4 @@
-package com.example.mosca.moscaLogin.data.network
+package com.example.mosca.data.network
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore

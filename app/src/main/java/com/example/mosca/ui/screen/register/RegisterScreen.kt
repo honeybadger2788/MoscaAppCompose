@@ -1,4 +1,4 @@
-package com.example.mosca.moscaLogin.ui.register
+package com.example.mosca.ui.screen.register
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -17,7 +17,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.mosca.model.Routes
-import com.example.mosca.moscaLogin.ui.register.model.UserRegisterModel
+import com.example.mosca.ui.screen.register.model.UserRegisterModel
 import com.example.mosca.ui.composable.BrandLogo
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
@@ -55,7 +55,7 @@ fun RegisterForm(
             Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.size(8.dp))
-        com.example.mosca.moscaLogin.ui.login.Password(
+        com.example.mosca.ui.screen.login.Password(
             password = password,
             onTextChanged = { registerViewModel.onRegisterChanged(email, it, confirmPassword) },
             modifier = Modifier.fillMaxWidth()

@@ -11,15 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mosca.moscaHome.ui.HomeScreen
-import com.example.mosca.moscaHome.ui.HomeViewModel
-import com.example.mosca.moscaLogin.ui.login.LoginScreen
-import com.example.mosca.moscaLogin.ui.login.LoginViewModel
-import com.example.mosca.moscaLogin.ui.register.RegisterScreen
+import com.example.mosca.ui.screen.home.HomeScreen
+import com.example.mosca.ui.screen.home.HomeViewModel
+import com.example.mosca.ui.screen.login.LoginScreen
+import com.example.mosca.ui.screen.login.LoginViewModel
+import com.example.mosca.ui.screen.register.RegisterScreen
 import com.example.mosca.model.Routes
-import com.example.mosca.moscaLogin.ui.register.RegisterViewModel
+import com.example.mosca.ui.screen.register.RegisterViewModel
 import com.example.mosca.ui.theme.MoscaTheme
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

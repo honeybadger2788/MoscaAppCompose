@@ -1,4 +1,4 @@
-package com.example.mosca.moscaLogin.ui.login
+package com.example.mosca.ui.screen.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mosca.model.Routes
-import com.example.mosca.moscaLogin.ui.login.model.UserLoginModel
+import com.example.mosca.ui.screen.login.model.UserLoginModel
 import com.example.mosca.ui.composable.BrandLogo
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton

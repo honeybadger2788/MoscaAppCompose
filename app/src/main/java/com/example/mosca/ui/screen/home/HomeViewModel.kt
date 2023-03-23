@@ -1,12 +1,18 @@
-package com.example.mosca.moscaHome.ui
+package com.example.mosca.ui.screen.home
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mosca.moscaHome.ui.model.ExpenseModel
+import com.example.mosca.domain.LogoutUseCase
+import com.example.mosca.ui.screen.home.model.ExpenseModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel:ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val logoutUseCase: LogoutUseCase
+):ViewModel() {
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
 
@@ -28,5 +34,9 @@ class HomeViewModel:ViewModel() {
         _budget.value = budget + expense.amount
         _showDialog.value = false
         _expensesList.add(expense)
+    }
+
+    fun onLogout() {
+        logoutUseCase()
     }
 }

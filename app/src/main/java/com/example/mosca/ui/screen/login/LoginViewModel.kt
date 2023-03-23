@@ -1,4 +1,4 @@
-package com.example.mosca.moscaLogin.ui.login
+package com.example.mosca.ui.screen.login
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mosca.core.Event
-import com.example.mosca.moscaLogin.data.response.LoginResult.Error
-import com.example.mosca.moscaLogin.data.response.LoginResult.Success
-import com.example.mosca.moscaLogin.domain.LoginUseCase
-import com.example.mosca.moscaLogin.ui.login.model.UserLoginModel
+import com.example.mosca.data.response.LoginResult.Error
+import com.example.mosca.data.response.LoginResult.Success
+import com.example.mosca.domain.LoginUseCase
+import com.example.mosca.ui.screen.login.model.UserLoginModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

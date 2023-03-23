@@ -1,18 +1,22 @@
-package com.example.mosca.moscaHome.ui
+package com.example.mosca.ui.screen.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.outlined.ArrowDownward
 import androidx.compose.material.icons.outlined.ArrowUpward
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,10 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
-import com.example.mosca.moscaHome.ui.model.ExpenseModel
 import com.example.mosca.model.Routes
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
+import com.example.mosca.ui.screen.home.model.ExpenseModel
 
 
 @Composable
@@ -37,7 +41,10 @@ fun HomeScreen(homeViewModel: HomeViewModel, navigationController: NavHostContro
 
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = { BottomNav { navigationController.navigate(Routes.Login.route) } },
+        bottomBar = { BottomNav {
+            homeViewModel.onLogout()
+            navigationController.navigate(Routes.Login.route)
+        } },
         floatingActionButton = { FabDialog(){ homeViewModel.onShowDialogClick() } },
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true
@@ -86,18 +93,6 @@ fun Body(modifier: Modifier, budget: Double, homeViewModel: HomeViewModel) {
         ExpensesList(Modifier.padding(16.dp), homeViewModel)
     }
 }
-
-@Composable
-fun Header(modifier: Modifier, navigationController: NavHostController) {
-    Icon(
-        imageVector = Icons.Default.Logout,
-        contentDescription = "logout",
-        tint = Color.Gray,
-        modifier = modifier
-            .clickable { navigationController.navigate(Routes.Login.route) },
-    )
-}
-
 
 @Composable
 fun ExpensesList(modifier: Modifier, homeViewModel: HomeViewModel) {
@@ -153,7 +148,7 @@ fun Budget(modifier: Modifier, budget: Double) {
 }
 
 @Composable
-fun FabDialog(/*modifier: Modifier,*/ showDialog: () -> Unit) {
+fun FabDialog(showDialog: () -> Unit) {
     FloatingActionButton(onClick = { showDialog() },
         modifier = Modifier.padding(16.dp),
         backgroundColor = Color(0xffffd740),

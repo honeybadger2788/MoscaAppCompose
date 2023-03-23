@@ -1,12 +1,12 @@
-package com.example.mosca.moscaLogin.ui.register
+package com.example.mosca.ui.screen.register
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mosca.moscaLogin.domain.CreateAccountUseCase
-import com.example.mosca.moscaLogin.ui.register.model.UserRegisterModel
+import com.example.mosca.domain.CreateAccountUseCase
+import com.example.mosca.ui.screen.register.model.UserRegisterModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

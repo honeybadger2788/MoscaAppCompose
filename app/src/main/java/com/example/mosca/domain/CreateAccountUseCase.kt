@@ -1,8 +1,8 @@
-package com.example.mosca.moscaLogin.domain
+package com.example.mosca.domain
 
-import com.example.mosca.moscaLogin.data.network.AuthenticationService
-import com.example.mosca.moscaLogin.data.network.UserService
-import com.example.mosca.moscaLogin.ui.register.model.UserRegisterModel
+import com.example.mosca.data.network.AuthenticationService
+import com.example.mosca.data.network.UserService
+import com.example.mosca.ui.screen.register.model.UserRegisterModel
 import javax.inject.Inject
 
 class CreateAccountUseCase @Inject constructor(

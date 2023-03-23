@@ -1,9 +1,8 @@
-package com.example.mosca.moscaLogin.domain
+package com.example.mosca.domain
 
-import com.example.mosca.moscaLogin.data.network.AuthenticationService
-import com.example.mosca.moscaLogin.data.response.LoginResult
-import com.example.mosca.moscaLogin.ui.login.model.UserLoginModel
-import kotlinx.coroutines.flow.Flow
+import com.example.mosca.data.network.AuthenticationService
+import com.example.mosca.data.response.LoginResult
+import com.example.mosca.ui.screen.login.model.UserLoginModel
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(

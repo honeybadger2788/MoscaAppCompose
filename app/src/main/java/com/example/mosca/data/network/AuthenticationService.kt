@@ -1,6 +1,6 @@
-package com.example.mosca.moscaLogin.data.network
+package com.example.mosca.data.network
 
-import com.example.mosca.moscaLogin.data.response.LoginResult
+import com.example.mosca.data.response.LoginResult
 import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -23,6 +23,8 @@ class AuthenticationService @Inject constructor(
         firebase.auth.signInWithEmailAndPassword(email, password).await()
     }.toLoginResult()
 
+    fun logout() = firebase.auth.signOut()
+
     private fun Result<AuthResult>.toLoginResult() = when (val result = getOrNull()) {
         null -> LoginResult.Error
         else -> {
@@ -31,5 +33,4 @@ class AuthenticationService @Inject constructor(
             LoginResult.Success
         }
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.mosca.moscaLogin.ui.register.model
+package com.example.mosca.ui.screen.register.model
 
 data class UserRegisterModel(val email: String, val password: String, val confirmPassword: String) {
     fun isNotEmpty() =
