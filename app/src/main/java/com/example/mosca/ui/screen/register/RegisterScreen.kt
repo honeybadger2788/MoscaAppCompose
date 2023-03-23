@@ -21,6 +21,7 @@ import com.example.mosca.ui.screen.register.model.UserRegisterModel
 import com.example.mosca.ui.composable.BrandLogo
 import com.example.mosca.ui.composable.CustomTextFieldOutlined
 import com.example.mosca.ui.composable.DefaultButton
+import com.example.mosca.ui.composable.ErrorMessage
 
 
 @Composable
@@ -47,8 +48,11 @@ fun RegisterForm(
     val password: String by registerViewModel.password.observeAsState(initial = "")
     val confirmPassword: String by registerViewModel.confirmPassword.observeAsState(initial = "")
     val isRegisterEnable: Boolean by registerViewModel.isRegisterEnable.observeAsState(initial = false)
+    val showError: Boolean by registerViewModel.showError.observeAsState(initial = false)
 
     Column (modifier = modifier) {
+        if (showError)
+            ErrorMessage(message = "Algo salió mal")
         Email(
             email,
             { registerViewModel.onRegisterChanged(it, password, confirmPassword) },

@@ -28,6 +28,9 @@ class RegisterViewModel @Inject constructor(
     private val _isRegisterEnable = MutableLiveData<Boolean>()
     val isRegisterEnable: LiveData<Boolean> = _isRegisterEnable
 
+    private val _showError = MutableLiveData<Boolean>()
+    val showError: LiveData<Boolean> = _showError
+
     fun onRegisterChanged(email: String, password: String, confirmPassword: String) {
         _email.value = email
         _password.value = password
@@ -42,11 +45,16 @@ class RegisterViewModel @Inject constructor(
 
     fun onRegister(user: UserRegisterModel) {
         viewModelScope.launch {
-            createAccountUseCase(user)
+            if(createAccountUseCase(user)) {
+                _email.value = ""
+                _password.value = ""
+                _confirmPassword.value = ""
+                _isRegisterEnable.value = false
+            } else {
+                _showError.value = true
+                _isRegisterEnable.value = false
+            }
         }
-        _email.value = ""
-        _password.value = ""
-        _confirmPassword.value = ""
-        _isRegisterEnable.value = false
+
     }
 }
