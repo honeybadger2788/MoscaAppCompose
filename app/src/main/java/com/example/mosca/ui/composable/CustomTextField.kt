@@ -1,9 +1,13 @@
 package com.example.mosca.ui.composable
 
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +22,8 @@ fun CustomTextFieldOutlined(
     trailingIcon: @Composable (() -> Unit)? = null,
     modifier: Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardType: KeyboardType = KeyboardType.Text
+    keyboardType: KeyboardType = KeyboardType.Text,
+    error: Boolean = false
 ) {
     OutlinedTextField(
         value = textValue ,
@@ -35,7 +40,12 @@ fun CustomTextFieldOutlined(
             unfocusedLabelColor = Color(0xFFB2B2B2),
             focusedLabelColor = Color(0xff00bcd4)
         ),
-        trailingIcon = trailingIcon,
+        trailingIcon = {
+            if (error) {
+                Icon(imageVector = Icons.Filled.Error, contentDescription = "alert", tint = Color.Red )
+            }
+            trailingIcon
+        },
         visualTransformation = visualTransformation
     )
 }

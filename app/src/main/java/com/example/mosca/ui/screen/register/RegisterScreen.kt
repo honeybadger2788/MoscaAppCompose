@@ -56,20 +56,23 @@ fun RegisterForm(
         Email(
             email,
             { registerViewModel.onRegisterChanged(it, password, confirmPassword) },
-            Modifier.fillMaxWidth()
+            Modifier.fillMaxWidth(),
+            error = showError
         )
         Spacer(modifier = Modifier.size(8.dp))
-        com.example.mosca.ui.screen.login.Password(
+        Password(
             password = password,
             onTextChanged = { registerViewModel.onRegisterChanged(email, it, confirmPassword) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            error = showError
         )
         Spacer(modifier = Modifier.size(8.dp))
         Password(
             password = confirmPassword,
             label = "Confirmar contraseña",
             onTextChanged = { registerViewModel.onRegisterChanged(email, password, it) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            error = showError
         )
         Spacer(modifier = Modifier.size(16.dp))
         RegisterButton(isRegisterEnable, navigationController, registerViewModel, UserRegisterModel(email, password, confirmPassword))
@@ -94,7 +97,13 @@ fun RegisterButton(
 }
 
 @Composable
-fun Password(password: String, label: String = "Contraseña" , onTextChanged: (String) -> Unit, modifier: Modifier) {
+fun Password(
+    password: String,
+    label: String = "Contraseña",
+    onTextChanged: (String) -> Unit,
+    modifier: Modifier,
+    error: Boolean
+) {
     var passwordVisibility by rememberSaveable {
         mutableStateOf(false)
     }
@@ -118,17 +127,19 @@ fun Password(password: String, label: String = "Contraseña" , onTextChanged: (S
             VisualTransformation.None
         } else {
             PasswordVisualTransformation()
-        }
+        },
+        error = error
     )
 }
 
 @Composable
-fun Email(email: String, onTextChanged: (String)->Unit ,modifier: Modifier) {
+fun Email(email: String, onTextChanged: (String) -> Unit, modifier: Modifier, error: Boolean) {
     CustomTextFieldOutlined(
         label = "Email",
         textValue = email,
         onTextChanged = { onTextChanged(it) },
         trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) },
-        modifier = modifier
+        modifier = modifier,
+        error = error
     )
 }

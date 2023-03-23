@@ -111,13 +111,15 @@ fun LoginForm(modifier: Modifier, loginViewModel: LoginViewModel) {
         Email(
             email = email,
             onTextChanged = { loginViewModel.onLoginChanged(it, password) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            showError
         )
         Spacer(modifier = Modifier.size(8.dp))
         Password(
             password = password,
             onTextChanged = { loginViewModel.onLoginChanged(email, it) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            showError
         )
         Spacer(modifier = Modifier.size(16.dp))
         LoginButton(
@@ -141,7 +143,7 @@ fun LoginButton(
 }
 
 @Composable
-fun Password(password: String, onTextChanged: (String) -> Unit, modifier: Modifier) {
+fun Password(password: String, onTextChanged: (String) -> Unit, modifier: Modifier, error: Boolean) {
     var passwordVisibility by rememberSaveable {
         mutableStateOf(false)
     }
@@ -165,18 +167,20 @@ fun Password(password: String, onTextChanged: (String) -> Unit, modifier: Modifi
             VisualTransformation.None
         } else {
             PasswordVisualTransformation()
-        }
+        },
+        error = error
     )
 }
 
 @Composable
-fun Email(email: String, onTextChanged:(String) -> Unit, modifier: Modifier) {
+fun Email(email: String, onTextChanged: (String) -> Unit, modifier: Modifier, error: Boolean) {
     CustomTextFieldOutlined(
         label = "Email",
         textValue = email,
         onTextChanged = { onTextChanged(it) },
         trailingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "user" ) },
-        modifier = modifier
+        modifier = modifier,
+        error = error
     )
 }
 
