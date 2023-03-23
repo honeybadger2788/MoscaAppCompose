@@ -14,6 +14,13 @@ import javax.inject.Singleton
 class AuthenticationService @Inject constructor(
     private val firebase: FirebaseClient
 ) {
+    val currentUser: Flow<Boolean> = flow {
+        while (true) {
+            val user = getCurrentUser()
+            emit(user)
+            delay(1000)
+        }
+    }
 
     suspend fun createAccount(email: String, password: String): AuthResult? {
         return firebase.auth.createUserWithEmailAndPassword(email, password).await()
@@ -24,6 +31,10 @@ class AuthenticationService @Inject constructor(
     }.toLoginResult()
 
     fun logout() = firebase.auth.signOut()
+
+    private fun getCurrentUser(): Boolean {
+        return firebase.auth.currentUser != null
+    }
 
     private fun Result<AuthResult>.toLoginResult() = when (val result = getOrNull()) {
         null -> LoginResult.Error

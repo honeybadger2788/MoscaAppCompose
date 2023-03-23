@@ -8,15 +8,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.mosca.core.Event
 import com.example.mosca.data.response.LoginResult.Error
 import com.example.mosca.data.response.LoginResult.Success
+import com.example.mosca.domain.GetCurrentUserUseCase
 import com.example.mosca.domain.LoginUseCase
 import com.example.mosca.ui.screen.login.model.UserLoginModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase
 ) :ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
@@ -31,8 +36,17 @@ class LoginViewModel @Inject constructor(
     val showError: LiveData<Boolean> = _showError
 
     private val _navigateToHome = MutableLiveData<Event<Boolean>>()
-    val navigateToHome: LiveData<Event<Boolean>>
-        get() = _navigateToHome
+    val navigateToHome: LiveData<Event<Boolean>> = _navigateToHome
+
+    init {
+        viewModelScope.launch {
+            getCurrentUserUseCase()
+                .collect{
+                    if(it)
+                        _navigateToHome.value = Event(true)
+                }
+        }
+    }
 
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
@@ -53,7 +67,6 @@ class LoginViewModel @Inject constructor(
                     _email.value = ""
                     _password.value = ""
                     _isLoginEnable.value = false
-                    _navigateToHome.value = Event(true)
                 }
                 Error -> {
                     _showError.value = true
