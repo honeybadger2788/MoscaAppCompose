@@ -41,8 +41,8 @@ class LoginViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getCurrentUserUseCase()
-                .collect{
-                    if(it)
+                .collect{ userLoggedIn ->
+                    if(userLoggedIn)
                         _navigateToHome.value = Event(true)
                 }
         }
