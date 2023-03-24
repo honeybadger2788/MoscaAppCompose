@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +39,14 @@ fun HomeScreen(homeViewModel: HomeViewModel, navigationController: NavHostContro
     val showDialog: Boolean by homeViewModel.showDialog.observeAsState(false)
     val budget: Double by homeViewModel.budget.observeAsState(0.00)
     val scaffoldState = rememberScaffoldState()
+
+    val lifecycle = LocalLifecycleOwner.current
+
+    homeViewModel.navigateToLogin.observe(lifecycle) {
+        it.getContentIfNotHandled()?.let {
+            navigationController.navigate(Routes.Login.route)
+        }
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
