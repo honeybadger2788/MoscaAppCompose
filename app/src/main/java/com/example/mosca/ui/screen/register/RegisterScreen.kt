@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,14 @@ import com.example.mosca.ui.composable.ErrorMessage
 
 @Composable
 fun RegisterScreen(registerViewModel: RegisterViewModel, navigationController: NavHostController) {
+    val lifecycle = LocalLifecycleOwner.current
+
+    registerViewModel.navigateToLogin.observe(lifecycle) {
+        it.getContentIfNotHandled()?.let {
+            navigationController.navigate(Routes.Login.route)
+        }
+    }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -90,7 +99,7 @@ fun RegisterButton(
         text = "CREAR CUENTA",
         onClick = {
             registerViewModel.onRegister(userRegisterModel)
-            navigationController.navigate(Routes.Login.route)
+            //navigationController.navigate(Routes.Login.route)
         },
         enabled = isLoginEnable
     )

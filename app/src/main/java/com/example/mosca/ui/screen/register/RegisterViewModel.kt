@@ -1,10 +1,12 @@
 package com.example.mosca.ui.screen.register
 
+
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mosca.core.Event
 import com.example.mosca.domain.CreateAccountUseCase
 import com.example.mosca.ui.screen.register.model.UserRegisterModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +33,9 @@ class RegisterViewModel @Inject constructor(
     private val _showError = MutableLiveData<Boolean>()
     val showError: LiveData<Boolean> = _showError
 
+    private val _navigateToLogin = MutableLiveData<Event<Boolean>>()
+    val navigateToLogin: LiveData<Event<Boolean>> = _navigateToLogin
+
     fun onRegisterChanged(email: String, password: String, confirmPassword: String) {
         _email.value = email
         _password.value = password
@@ -50,6 +55,7 @@ class RegisterViewModel @Inject constructor(
                 _password.value = ""
                 _confirmPassword.value = ""
                 _isRegisterEnable.value = false
+                _navigateToLogin.value = Event(true)
             } else {
                 _showError.value = true
                 _isRegisterEnable.value = false

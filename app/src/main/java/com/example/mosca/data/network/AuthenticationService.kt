@@ -1,8 +1,8 @@
 package com.example.mosca.data.network
 
+import android.util.Log
 import com.example.mosca.data.response.LoginResult
 import com.google.firebase.auth.AuthResult
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,9 +22,9 @@ class AuthenticationService @Inject constructor(
         }
     }
 
-    suspend fun createAccount(email: String, password: String): AuthResult? {
-        return firebase.auth.createUserWithEmailAndPassword(email, password).await()
-    }
+    suspend fun createAccount(email: String, password: String): LoginResult = runCatching {
+        firebase.auth.createUserWithEmailAndPassword(email, password).await()
+    }.toLoginResult()
 
     suspend fun login(email: String, password: String): LoginResult = runCatching {
         firebase.auth.signInWithEmailAndPassword(email, password).await()
